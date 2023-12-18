@@ -1,4 +1,5 @@
 require("@nomicfoundation/hardhat-toolbox");
+require("dotenv").config();
 
 const fs = require("fs");
 const path = require("path");
@@ -20,8 +21,25 @@ task("deploy", "Deploys all scripts in the scripts folder").setAction(
     console.log("All scripts have been deployed.");
   }
 );
+const Api_Sep = process.env.SepoliaRPC;
+const pv_key = process.env.PK;
+const apiKey = process.env.api_etherscan;
 
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
   solidity: "0.8.19",
+  networks: {
+    localhost: {
+      url: "http://127.0.0.1:8545",
+    },
+    sepolia: {
+      url: Api_Sep,
+      accounts: [pv_key],
+      chainId: 11155111,
+      blockConfirmations: 5,
+    },
+  },
+  etherscan: {
+    apiKey: apiKey,
+  },
 };
